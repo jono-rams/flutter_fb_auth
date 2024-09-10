@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth_tut/services/auth_service.dart';
 import 'package:flutter_auth_tut/shared/styled_button.dart';
 import 'package:flutter_auth_tut/shared/styled_text.dart';
 
@@ -85,6 +86,9 @@ class _MyWidgetState extends State<SignInForm> {
                 if (_formKey.currentState!.validate()) {
                   // perform sign-in logic here
                   _formKey.currentState!.save();
+
+                  final user = await AuthService.signIn(_email, _password);
+
                   setState(() {
                     // clear form fields
                     _formKey.currentState!.reset();
