@@ -15,6 +15,9 @@ class _SignUpFormState extends State<SignUpForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  String _email = '';
+  String _password = '';
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -39,6 +42,15 @@ class _SignUpFormState extends State<SignUpForm> {
               decoration: const InputDecoration(
                 labelText: 'Email address',
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter a valid email address';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                _email = value!.trim();
+              },
             ),
             const SizedBox(
               height: 16.0,
@@ -51,6 +63,18 @@ class _SignUpFormState extends State<SignUpForm> {
               decoration: const InputDecoration(
                 labelText: 'Password',
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter a password';
+                }
+                if (value.length < 8) {
+                  return 'Password must be at least 8 characters long';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                _password = value!.trim();
+              },
             ),
             const SizedBox(
               height: 16.0,
@@ -60,7 +84,16 @@ class _SignUpFormState extends State<SignUpForm> {
 
             // submit button
             StyledButton(
-              onPressed: () async {},
+              onPressed: () async {
+                if (_formKey.currentState!.validate()) {
+                  // perform sign-up logic here
+                  _formKey.currentState!.save();
+                  setState(() {
+                    // clear form fields
+                    _formKey.currentState!.reset();
+                  });
+                }
+              },
               child: const StyledButtonText('Sign up'),
             ),
           ],

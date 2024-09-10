@@ -15,6 +15,9 @@ class _MyWidgetState extends State<SignInForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  String _email = '';
+  String _password = '';
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -39,6 +42,15 @@ class _MyWidgetState extends State<SignInForm> {
               decoration: const InputDecoration(
                 labelText: 'Email address',
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter a valid email address';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                _email = value!.trim();
+              },
             ),
             const SizedBox(
               height: 16.0,
@@ -51,6 +63,15 @@ class _MyWidgetState extends State<SignInForm> {
               decoration: const InputDecoration(
                 labelText: 'Password',
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter a password';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                _password = value!.trim();
+              },
             ),
             const SizedBox(
               height: 16.0,
@@ -60,7 +81,16 @@ class _MyWidgetState extends State<SignInForm> {
 
             // submit button
             StyledButton(
-              onPressed: () async {},
+              onPressed: () async {
+                if (_formKey.currentState!.validate()) {
+                  // perform sign-in logic here
+                  _formKey.currentState!.save();
+                  setState(() {
+                    // clear form fields
+                    _formKey.currentState!.reset();
+                  });
+                }
+              },
               child: const StyledButtonText('Sign In'),
             ),
           ],
