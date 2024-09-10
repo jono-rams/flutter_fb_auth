@@ -19,6 +19,8 @@ class _SignUpFormState extends State<SignUpForm> {
   String _email = '';
   String _password = '';
 
+  String? _errorFeedback;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -82,20 +84,34 @@ class _SignUpFormState extends State<SignUpForm> {
             ),
 
             // error feedback
+            if (_errorFeedback != null)
+              Text(
+                _errorFeedback!,
+                style: const TextStyle(color: Colors.red),
+              ),
 
             // submit button
             StyledButton(
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  // perform sign-up logic here
+                  setState(() {
+                    _errorFeedback = null;
+                  });
+
+                  // perform sign-in logic here
                   _formKey.currentState!.save();
 
                   final user = await AuthService.signUp(_email, _password);
 
-                  setState(() {
-                    // clear form fields
-                    _formKey.currentState!.reset();
-                  });
+                  // error feedback
+                  if (user == null) {
+                    setState(() {
+                      _errorFeedback =
+                          'Could not sign sign you up, please try again later.';
+                      // clear form fields
+                      _formKey.currentState!.reset();
+                    });
+                  }
                 }
               },
               child: const StyledButtonText('Sign up'),

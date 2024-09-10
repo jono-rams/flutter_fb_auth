@@ -19,6 +19,8 @@ class _MyWidgetState extends State<SignInForm> {
   String _email = '';
   String _password = '';
 
+  String? _errorFeedback;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -79,20 +81,33 @@ class _MyWidgetState extends State<SignInForm> {
             ),
 
             // error feedback
+            if (_errorFeedback != null)
+              Text(
+                _errorFeedback!,
+                style: const TextStyle(color: Colors.red),
+              ),
 
             // submit button
             StyledButton(
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
+                  setState(() {
+                    _errorFeedback = null;
+                  });
+
                   // perform sign-in logic here
                   _formKey.currentState!.save();
 
                   final user = await AuthService.signIn(_email, _password);
 
-                  setState(() {
-                    // clear form fields
-                    _formKey.currentState!.reset();
-                  });
+                  // error feedback
+                  if (user == null) {
+                    setState(() {
+                      _errorFeedback = 'Invalid email or password';
+                      // clear form fields
+                      _formKey.currentState!.reset();
+                    });
+                  }
                 }
               },
               child: const StyledButtonText('Sign In'),
