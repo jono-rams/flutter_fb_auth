@@ -2,6 +2,7 @@ import 'package:flutter_auth_tut/screens/welcome/sign_in.dart';
 import 'package:flutter_auth_tut/screens/welcome/sign_up.dart';
 import 'package:flutter_auth_tut/shared/styled_text.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -11,6 +12,8 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  bool isSignUpForm = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,16 +25,48 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       body: SingleChildScrollView(
         child: Container(
             padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 16),
-            child: const Column(
+            child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  StyledHeading('Welcome.'),
-
-                  // sign up screen
-                  SignUpForm(),
-
-                  // sign in screen
-                  SignInForm(),
+                  const StyledHeading('Welcome.'),
+                  if (isSignUpForm)
+                    Column(
+                      // sign up screen
+                      children: [
+                        const SignUpForm(),
+                        const StyledBodyText('Already have an account?'),
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              isSignUpForm = false;
+                            });
+                          },
+                          child: Text(
+                            'Sign in Instead',
+                            style: GoogleFonts.poppins(),
+                          ),
+                        ),
+                      ],
+                    )
+                  else
+                    Column(
+                      // sign in screen
+                      children: [
+                        const SignInForm(),
+                        const StyledBodyText('Need an account?'),
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              isSignUpForm = true;
+                            });
+                          },
+                          child: Text(
+                            'Sign up Instead',
+                            style: GoogleFonts.poppins(),
+                          ),
+                        ),
+                      ],
+                    )
                 ])),
       ),
     );
