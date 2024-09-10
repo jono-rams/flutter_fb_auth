@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "558386649713",
+    "project_id": "flutter-fb-auth-4fdc1",
+    "storage_bucket": "flutter-fb-auth-4fdc1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558386649713:android:fbe97c4b03a7f65851d9d0",
+        "android_client_info": {
+          "package_name": "com.example.flutter_auth_tut"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDe3u_DAbA2mcMKJn9W8UWQ6G4nLkW9HrE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
