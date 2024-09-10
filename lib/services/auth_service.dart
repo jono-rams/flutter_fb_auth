@@ -21,9 +21,14 @@ class AuthService {
       }
 
       return null;
-      
+
     } catch (e) {
       return null;
     }
+  }
+
+  // log user out
+  static Future<void> signOut() async {
+    await _firebaseAuth.signOut();
   }
 }
